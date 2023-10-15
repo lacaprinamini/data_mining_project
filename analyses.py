@@ -2,6 +2,7 @@
 # This will help illustrate the concept.
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 np.random.seed(42)
 sample_size = 100
