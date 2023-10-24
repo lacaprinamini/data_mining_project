@@ -1,0 +1,51 @@
+INDICE 
+1.	Data understanding
+    1.1.	Visual rappresentation 
+        •	Sturges’rule
+        •	Natural binning
+        •	Equal frequency binning
+    1.2.	Data dispersion
+        1.2.1.	Variance
+        1.2.2.	Range
+        1.2.3.	Std deviation
+        1.2.4.	Five-number summary / box plot
+        1.2.5.	Inter-quartile range 
+    1.3.	Scatter plot /scatter matrix
+    1.4.	Correlation
+        1.4.1.	Pearson’s correlation coefficient
+        1.4.2.	Linear correlation
+    1.5.	Outliers
+    1.6.	Missing values
+
+2.	Data preparation 
+    2.1.	Aggregation
+    2.2.	Data reduction 
+        2.2.1.	sampling
+    2.3.	dimensionality reduction
+        2.3.1.	PCA
+        2.3.2.	Algorithms 
+            2.3.2.1.	Flilter methods
+            2.3.2.2.	Wrapped methods
+            2.3.2.3.	Embedded methods
+    2.4.	Feature subset selection
+    2.5.	Feature creation
+    2.6.	Dicretization and binarization
+    2.7.	Attribute transormation
+
+3.	Data leaning
+    3.1.	Handling missing values
+        3.1.1.	Elimination of records 
+        3.1.2.	Substitution
+    3.2.	Discretization 
+
+4.	Data transformation
+    4.1.	Normalization
+        4.1.1.	Min max normalization
+        4.1.2.	Z score normalization
+
+5.	Data similarity
+    5.1.	Single attribute dissimilarity
+    5.2.	Euclidean distance
+    5.3.	Minkoscki distance
+
+
