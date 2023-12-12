@@ -1,0 +1,157 @@
+- Pre-elaborazione dei Dati: Hai rimosso alcune colonne non necessarie e hai codificato la colonna 'genre' usando LabelEncoder. Questo è un passaggio standard per trasformare etichette categoriche in etichette numeriche che possono essere utilizzate in modelli di machine learning.
+
+- Descrizione dei Dati: Hai usato df.describe() per ottenere una descrizione statistica del tuo dataset. Questo è utile per avere una panoramica delle caratteristiche numeriche del tuo dataset.
+
+- Partizionamento dei Dati: Hai diviso i dati in set di addestramento e di test con train_test_split. Questo è fondamentale per valutare le prestazioni del modello su dati non visti durante l'addestramento.
+
+- Normalizzazione dei Dati: Hai normalizzato le feature usando StandardScaler. Questo è importante perché il K-NN è sensibile alle scale delle feature.
+
+- Addestramento del Modello: Hai addestrato il K-NN con distanza euclidea e hai calcolato le prestazioni sul set di test. I passaggi sono corretti e sembra che il modello stia funzionando bene.
+
+- Valutazione del Modello: Hai calcolato l'accuratezza, il punteggio F1 e hai generato una confusion matrix. Questi sono tutti metodi standard per valutare le prestazioni di un classificatore.
+
+- Cross validation:
+
+viene utilizzata una forma di cross-validation chiamata k-fold cross-validation. In questo metodo, il set di dati viene diviso in k gruppi (o "fold") di dimensioni più o meno uguali. Il modello viene addestrato su k-1 fold e il fold rimanente viene usato come test set. Questo processo viene ripetuto k volte, ogni volta con un fold diverso usato come set di test. Alla fine, si ottiene una stima dell'errore del modello calcolando la media degli errori ottenuti da ogni iterazione della cross-validation.
+
+Nello specifico, nel tuo codice:
+
+Viene inizializzato il classificatore K-NN con 5 vicini (n_neighbors=5), metrica euclidea (metric='euclidean') e peso uniforme (weights='uniform').
+
+La funzione cross_val_score è utilizzata per eseguire la cross-validation con 10 fold (cv=10). In questo contesto, il parametro cv specifica il numero di fold.
+
+Il risultato di cross_val_score è un array con i punteggi di accuratezza per ogni fold. Questo ti dà un'idea di come il modello si comporta su diverse porzioni del dataset.
+
+Viene calcolata l'accuratezza media (scores.mean()) e la deviazione standard (scores.std()) dai punteggi ottenuti. Questo fornisce una stima dell'errore del modello e della sua varianza, che sono indicatori di quanto il modello sia affidabile e stabile.
+
+Infine, l'output mostra un errore complessivo stimato molto basso e un'accuratezza media molto alta, indicando che il modello sta probabilmente performando bene.
+
+Questa tecnica è particolarmente utile quando si hanno set di dati di dimensioni limitate, poiché permette di utilizzare tutto il dataset per l'addestramento e la validazione, massimizzando l'uso delle informazioni disponibili.
+
+
+
+
+
+
+
+
+
+- Curva di Apprendimento: Hai generato una curva di apprendimento, che è utile per vedere come l'accuratezza del modello varia con diverse dimensioni del set di addestramento
+
+
+
+
+# from sklearn.model_selection import train_test_split
+# from sklearn.neighbors import KNeighborsClassifier
+# from sklearn.metrics import accuracy_score
+# import numpy as np
+
+# # Supponiamo che 'X' sia il tuo dataset di features e 'y' i label dei generi
+# # X = ...  # Il tuo dataset di features
+# # y = ...  # I label dei tuoi generi
+
+# # Unici generi nel dataset
+# unique_genres = np.unique(y)
+
+# # Inizializza una matrice vuota per l'accuracy
+# accuracy_matrix = np.zeros((len(unique_genres), len(unique_genres)))
+
+# # Calcola l'accuracy per ogni coppia di generi
+# for i, genre_i in enumerate(unique_genres):
+#     for j, genre_j in enumerate(unique_genres):
+#         if i != j:  # Ignora il confronto del genere con se stesso
+#             # Filtra il dataset per i due generi correnti
+#             mask = (y == genre_i) | (y == genre_j)
+#             X_pair = X[mask]
+#             y_pair = y[mask]
+            
+#             # Split dei dati
+#             X_train, X_test, y_train, y_test = train_test_split(X_pair, y_pair, test_size=0.3, random_state=42)
+            
+#             # Allenamento del classificatore
+#             clf = KNeighborsClassifier(n_neighbors=5, metric="euclidean", weights="uniform")
+#             clf.fit(X_train, y_train)
+            
+#             # Test del classificatore
+#             y_pred = clf.predict(X_test)
+            
+#             # Calcolo dell'accuracy
+#             accuracy = accuracy_score(y_test, y_pred)
+            
+#             # Salva l'accuracy nella matrice
+#             accuracy_matrix[i, j] = accuracy
+
+# # Ora calcola le 4 accuracy più alte e più basse per ogni genere
+# genre_accuracy = {}
+
+# for i, genre_i in enumerate(unique_genres):
+#     accuracies = accuracy_matrix[i]
+#     sorted_indices = np.argsort(accuracies)
+#     top_indices = sorted_indices[-4:]
+#     bottom_indices = sorted_indices[:4]
+    
+#     genre_accuracy[genre_i] = {
+#         'top_accuracies': [(unique_genres[j], accuracies[j]) for j in top_indices],
+#         'bottom_accuracies': [(unique_genres[j], accuracies[j]) for j in bottom_indices]
+#     }
+
+# # Stampa i risultati
+# for genre, data in genre_accuracy.items():
+#     print(f"Genre: {genre}")
+#     print("  Top 4 accuracies:")
+#     for other_genre, acc in data['top_accuracies']:
+#         print(f"    {other_genre}: {acc}")
+#     print("  Bottom 4 accuracies:")
+#     for other_genre, acc in data['bottom_accuracies']:
+#         print(f"    {other_genre}: {acc}")
+#     print("\n")
+
+
+
+
+
+
+# cf = confusion_matrix(y_test, y_test_pred)
+# # cf = confusion_matrix(y_test, y_test_pred, normalize="true")
+
+# # Imposta le dimensioni del plot e la scala del font
+# plt.figure(figsize=(12, 12))
+# sns.set(font_scale=1.2)
+
+# # Crea il heatmap della matrice di confusione
+# sns.heatmap(cf, annot=True, cmap="plasma", fmt='g')
+
+# # Aggiunge titoli e etichette
+# plt.title('Confusion Matrix')
+# plt.xlabel('True Labels')
+# plt.ylabel('Predicted Labels')
+
+# # Ruota le etichette se necessario
+# plt.xticks(rotation=90)
+# plt.yticks(rotation=0)
+
+# # Mostra il plot
+# plt.show()
+
+# cf = confusion_matrix(y_test, y_test_pred)
+
+# # Calcola il valore massimo della matrice per stabilire la soglia del colore del testo
+# threshold = cf.max() / 2
+
+# plt.figure(figsize=(10, 8))
+# sns.set(font_scale=1.4)
+
+# # Crea il heatmap della matrice di confusione
+# sns.heatmap(cf, annot=True, fmt='d', cmap='Greens',
+#             annot_kws={'color': 'black'})
+
+# # Aggiungi i titoli e le etichette
+# plt.title('Confusion Matrix')
+# plt.xlabel('True Labels')
+# plt.ylabel('Predicted Labels')
+
+# # Qui cambiamo il colore dell'annotazione in base al valore della cella
+# for text, value in zip(plt.gca().texts, cf.flatten()):
+#     text.set_color('white' if value > threshold else 'black')
+
+# plt.show()
